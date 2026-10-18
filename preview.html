@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WMS Mattress | Pratinjau</title>
+  <link rel="stylesheet" href="public/styles.css">
+  <style>
+    body { background: #f4f6f4; }
+    .preview-banner { background: #fff4dc; border: 1px solid #efd59d; color: #765314; border-radius: 8px; padding: 11px 14px; margin-bottom: 18px; font-size: .86rem; }
+    .dashboard-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:18px; }
+    .dashboard-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-bottom:18px; }
+    .chart-wide { grid-column:span 2; }
+    .panel-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+    .panel-heading h3 { margin:0 0 4px; font-size:1.05rem; }
+    .panel-heading p,.subheading { margin:0; color:#748078; font-size:.84rem; }
+    .eyebrow { color:#258463; font-size:.7rem; font-weight:700; margin:0 0 6px; }
+    .mini-bars { display:grid; gap:8px; margin-top:18px; }
+    .mini-row { display:grid; grid-template-columns:minmax(125px,180px) 1fr 52px; align-items:center; gap:10px; font-size:.76rem; }
+    .mini-label { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .bar-track { height:14px; background:#edf2ef; border-radius:3px; position:relative; overflow:hidden; }
+    .bar-fill { height:100%; border-radius:3px; }
+    .bar-normal { background:#258463; }.bar-low { background:#d98c27; }.bar-out { background:#d74747; }
+    .line-demo { display:grid; gap:12px; margin-top:20px; }
+    .line-day { display:grid; grid-template-columns:55px 1fr; gap:10px; align-items:center; font-size:.76rem; }
+    .line-pairs { display:flex; align-items:center; gap:5px; height:26px; border-bottom:1px solid #edf0ee; }
+    .line-in,.line-out { width:12px; border-radius:2px 2px 0 0; align-self:flex-end; }
+    .line-in { background:#258463; }.line-out { background:#3478c5; }
+    .chart-legend { color:#66736b; font-size:.75rem; display:flex; gap:14px; margin-top:14px; }
+    .legend-dot { width:8px; height:8px; display:inline-block; border-radius:50%; margin-right:5px; }
+    .donut-wrap { display:flex; align-items:center; justify-content:center; gap:25px; padding:16px 0; }
+    .donut { width:150px; aspect-ratio:1; border-radius:50%; background:conic-gradient(#258463 0 35%,#72b493 35% 59%,#3478c5 59% 82%,#d98c27 82% 100%); position:relative; }
+    .donut:after { content:""; position:absolute; inset:29px; border-radius:50%; background:white; }
+    .category-list { list-style:none; padding:0; margin:0; min-width:145px; display:grid; gap:10px; font-size:.8rem; }
+    .category-list li { display:flex; justify-content:space-between; gap:14px; }
+    .category-list span:first-child:before { content:""; display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:7px; background:var(--swatch); }
+    .activity-bars { display:grid; gap:14px; margin-top:20px; }
+    .activity-row { display:grid; grid-template-columns:115px 1fr 25px; gap:10px; align-items:center; font-size:.78rem; }
+    .activity-track { height:9px; background:#edf2ef; border-radius:4px; overflow:hidden; }
+    .activity-fill { height:100%; border-radius:4px; background:var(--fill); }
+    .low-stock { color:#a3630d; font-weight:600; }
+    .out-stock { color:#c33838; font-weight:600; }
+    .status-chip { display:inline-block; padding:4px 7px; border-radius:20px; background:#edf5ef; color:#258463; font-size:.7rem; white-space:nowrap; }
+    .status-chip.warn { background:#fff2db; color:#a3630d; }.status-chip.red { background:#ffebeb; color:#c33838; }.status-chip.blue { background:#e8f0fb; color:#2864a4; }
+    .table-wrap { overflow:auto; }
+    table { width:100%; border-collapse:collapse; font-size:.8rem; }
+    th,td { text-align:left; padding:10px 9px; border-bottom:1px solid #e8ece9; white-space:nowrap; }
+    th { color:#748078; font-size:.69rem; text-transform:uppercase; }
+    td small { display:block; color:#748078; margin-top:3px; }
+    .text-in { color:#258463; font-weight:600; }.text-out { color:#3478c5; font-weight:600; }
+    .page-body { max-width:1600px; width:100%; margin:auto; }
+    @media(max-width:980px) { .app-shell { display:block; }.sidebar { position:static; width:100%; height:auto; }.nav-section { display:flex; flex-wrap:wrap; }.dashboard-grid { grid-template-columns:1fr; }.chart-wide { grid-column:auto; } }
+    @media(max-width:620px) { .topbar { flex-direction:column; align-items:flex-start; gap:10px; }.topbar-actions { width:100%; justify-content:space-between; }.page-body { padding:14px; }.dashboard-heading { align-items:flex-start; flex-direction:column; }.kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }.kpi-value { font-size:1.45rem; }.kpi-card { padding:13px; }.mini-row { grid-template-columns:105px 1fr 45px; gap:7px; }.donut-wrap { gap:14px; }.donut { width:120px; }.donut:after { inset:24px; } }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="logo"><div class="logo-mark">W</div><div class="brand-name">Mattress Materials</div></div>
+      <nav class="nav-section" aria-label="Navigasi utama">
+        <a class="nav-item active" href="#dashboard"><span class="nav-icon">▣</span><span>Dashboard</span></a>
+        <a class="nav-item" href="#bahan"><span class="nav-icon">◫</span><span>Master Bahan Baku</span></a>
+        <a class="nav-item" href="#masuk"><span class="nav-icon">⇣</span><span>Barang Masuk</span></a>
+        <a class="nav-item" href="#keluar"><span class="nav-icon">⇡</span><span>Barang Keluar</span></a>
+        <a class="nav-item" href="#stok"><span class="nav-icon">▦</span><span>Stok Gudang</span></a>
+        <a class="nav-item" href="#movement"><span class="nav-icon">⇄</span><span>Stock Movement</span></a>
+        <a class="nav-item" href="#opname"><span class="nav-icon">∑</span><span>Stock Opname</span></a>
+        <a class="nav-item" href="#laporan"><span class="nav-icon">▥</span><span>Laporan</span></a>
+      </nav>
+    </aside>
+    <main class="main-panel" id="dashboard">
+      <header class="topbar"><h1>Dashboard Gudang</h1><div class="topbar-actions"><span class="badge">Pratinjau HTML</span><span class="badge">Admin Gudang</span></div></header>
+      <div class="page-body">
+        <div class="preview-banner"><strong>Pratinjau statis:</strong> angka di bawah adalah data contoh. Form dan transaksi belum terhubung ke Supabase serta tidak mengubah stok.</div>
+        <div class="dashboard-heading"><div><p class="eyebrow">OPERASIONAL BAHAN BAKU</p><p class="subheading">Ringkasan stok bahan baku mattress di gudang.</p></div><div class="quick-actions"><a class="btn btn-success" href="#masuk">+ Barang Masuk</a><a class="btn btn-primary" href="#keluar">− Barang Keluar</a><a class="btn btn-secondary" href="#opname">Stock Opname</a></div></div>
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-green"><div class="kpi-label">Jenis bahan baku</div><div class="kpi-value">14</div><div class="kpi-meta">bahan aktif</div></div>
+          <div class="kpi-card kpi-neutral"><div class="kpi-label">Total stok fisik</div><div class="kpi-value">746</div><div class="kpi-meta">akumulasi jumlah contoh</div></div>
+          <div class="kpi-card kpi-green"><div class="kpi-label">Stok tersedia</div><div class="kpi-value">746</div><div class="kpi-meta">physical quantity</div></div>
+          <div class="kpi-card kpi-orange"><div class="kpi-label">Low stock</div><div class="kpi-value">5</div><div class="kpi-meta">perlu perhatian</div></div>
+          <div class="kpi-card kpi-red"><div class="kpi-label">Out of stock</div><div class="kpi-value">1</div><div class="kpi-meta">stok habis</div></div>
+          <div class="kpi-card kpi-green"><div class="kpi-label">Barang masuk hari ini</div><div class="kpi-value">24</div><div class="kpi-meta">Meter / Roll / Lembar / Kg</div></div>
+          <div class="kpi-card kpi-blue"><div class="kpi-label">Barang keluar hari ini</div><div class="kpi-value">12</div><div class="kpi-meta">ke proses produksi</div></div>
+          <div class="kpi-card kpi-neutral"><div class="kpi-label">Transaksi hari ini</div><div class="kpi-value">8</div><div class="kpi-meta">movement tersimpan</div></div>
+        </div>
+        <div class="dashboard-grid">
+          <section class="panel chart-wide"><div class="panel-heading"><div><h3>Stok Tersedia vs Minimum Stock</h3><p>Contoh seluruh 14 bahan baku</p></div><span class="status-chip">● Aman</span></div><div class="mini-bars" id="stok"></div></section>
+          <section class="panel"><div class="panel-heading"><div><h3>Pergerakan Stok</h3><p>7 hari terakhir · contoh</p></div><span class="status-chip blue">Masuk / Keluar</span></div><div class="line-demo" id="chart-movement"></div><div class="chart-legend"><span><i class="legend-dot" style="background:#258463"></i>Masuk</span><span><i class="legend-dot" style="background:#3478c5"></i>Keluar</span></div></section>
+          <section class="panel"><div class="panel-heading"><div><h3>Komposisi per Kategori</h3><p>Proporsi stok contoh</p></div></div><div class="donut-wrap"><div class="donut" role="img" aria-label="Kain 35 persen, Busa 24 persen, Kawat 23 persen, Aksesoris 18 persen"></div><ul class="category-list"><li><span style="--swatch:#258463">Kain</span><strong>261 · 35%</strong></li><li><span style="--swatch:#72b493">Busa</span><strong>179 · 24%</strong></li><li><span style="--swatch:#3478c5">Kawat</span><strong>172 · 23%</strong></li><li><span style="--swatch:#d98c27">Aksesoris</span><strong>134 · 18%</strong></li></ul></div></section>
+          <section class="panel"><div class="panel-heading"><div><h3>Aktivitas Hari Ini</h3><p>Jumlah transaksi contoh</p></div></div><div class="activity-bars"><div class="activity-row"><span>Barang Masuk</span><div class="activity-track"><div class="activity-fill" style="--fill:#258463;width:85%"></div></div><strong>5</strong></div><div class="activity-row"><span>Barang Keluar</span><div class="activity-track"><div class="activity-fill" style="--fill:#3478c5;width:65%"></div></div><strong>4</strong></div><div class="activity-row"><span>Stock Opname</span><div class="activity-track"><div class="activity-fill" style="--fill:#d98c27;width:32%"></div></div><strong>2</strong></div><div class="activity-row"><span>Adjustment</span><div class="activity-track"><div class="activity-fill" style="--fill:#d74747;width:16%"></div></div><strong>1</strong></div></div></section>
+          <section class="panel chart-wide"><div class="panel-heading"><div><h3>Low Stock Prioritas</h3><p>Bahan yang perlu segera direplenishment</p></div><a class="text-link" href="#stok">Lihat Semua →</a></div><div class="table-wrap"><table><thead><tr><th>Bahan baku</th><th>Tersedia</th><th>Minimum</th><th>Kekurangan</th><th>Lokasi</th><th>Status</th></tr></thead><tbody><tr><td>Kawat diameter 2.2mm</td><td class="out-stock">0 Kilogram</td><td>25 Kilogram</td><td>25 Kilogram</td><td>WH-01-A-R02-L01-B3</td><td><span class="status-chip red">Habis</span></td></tr><tr><td>Busa D25</td><td class="low-stock">19 Lembar</td><td>25 Lembar</td><td>6 Lembar</td><td>WH-01-A-R01-L02-B3</td><td><span class="status-chip warn">Low</span></td></tr><tr><td>Kain Side</td><td class="low-stock">24 Meter</td><td>30 Meter</td><td>6 Meter</td><td>WH-01-A-R01-L01-B3</td><td><span class="status-chip warn">Low</span></td></tr><tr><td>Benang Putih</td><td class="low-stock">22 Roll</td><td>25 Roll</td><td>3 Roll</td><td>WH-01-A-R02-L02-B2</td><td><span class="status-chip warn">Low</span></td></tr><tr><td>Pita Webbing Navy</td><td class="low-stock">27 Roll</td><td>30 Roll</td><td>3 Roll</td><td>WH-01-A-R03-L01-B1</td><td><span class="status-chip warn">Low</span></td></tr></tbody></table></div></section>
+          <section class="panel chart-wide"><div class="panel-heading"><div><h3>Aktivitas Terbaru</h3><p>Contoh ledger transaksi</p></div><a class="text-link" href="#movement">Buka ledger →</a></div><div class="table-wrap"><table id="movement"><thead><tr><th>Waktu</th><th>Tipe</th><th>Bahan</th><th>Masuk</th><th>Keluar</th><th>Lokasi</th><th>Supplier / tujuan</th><th>Admin</th></tr></thead><tbody><tr><td>10:32</td><td><span class="status-chip">Barang Masuk / Put Away</span></td><td>Kain Topper</td><td class="text-in">+12 Meter</td><td>-</td><td>WH-01-A-R01-L01-B1</td><td>PT Sumber Bahan</td><td>Admin Gudang</td></tr><tr><td>10:15</td><td><span class="status-chip blue">Barang Keluar / Issue</span></td><td>Busa D18</td><td>-</td><td class="text-out">−4 Lembar</td><td>WH-01-A-R01-L02-B2</td><td>Perakitan Line A</td><td>Admin Gudang</td></tr><tr><td>09:55</td><td><span class="status-chip blue">Stock Opname</span></td><td>Benang Hitam</td><td>+1 Roll</td><td>-</td><td>WH-01-A-R02-L02-B1</td><td>Hitung fisik</td><td>Admin Gudang</td></tr><tr><td>09:30</td><td><span class="status-chip red">Quarantine</span></td><td>Kain Side</td><td>-</td><td>-</td><td>WH-01-A-R01-L01-B3</td><td>QC rejected</td><td>Admin Gudang</td></tr></tbody></table></div></section>
+          <section class="panel chart-wide" id="masuk"><div class="panel-heading"><div><h3>Barang Masuk</h3><p>Pratinjau SOP · transaksi dinonaktifkan di file statis</p></div></div><p>Receiving → Inspection → Put Away → Inventory Updated</p></section>
+          <section class="panel chart-wide" id="keluar"><div class="panel-heading"><div><h3>Barang Keluar ke Produksi</h3><p>Pratinjau SOP · transaksi dinonaktifkan di file statis</p></div></div><p>Barang Keluar → Validasi Stok → Issue to Production → Inventory Updated</p></section>
+          <span id="bahan"></span><span id="opname"></span><span id="laporan"></span>
+        </div>
+        <footer class="inline-note" style="padding:8px 2px">File HTML ini hanya untuk melihat tampilan. Untuk data live, gunakan server Express dan konfigurasi Supabase pada README.</footer>
+      </div>
+    </main>
+  </div>
+  <script>
+    const sample = [
+      ['Kain Topper',135,80,'meter'],['Kain Bottom',70,60,'meter'],['Kain Side',24,30,'meter'],['Busa Density 17',85,70,'lembar'],['Busa D18',44,45,'lembar'],['Busa D25',19,25,'lembar'],['Kawat diameter 1.8mm',110,90,'kg'],['Kawat diameter 2.0mm',72,75,'kg'],['Kawat diameter 2.2mm',0,25,'kg'],['Benang Hitam',35,25,'roll'],['Benang Putih',22,25,'roll'],['Pita Webbing Hitam',55,35,'roll'],['Pita Webbing Navy',27,30,'roll'],['Cotton Sheet',48,40,'meter']
+    ];
+    const maximum = Math.max(...sample.map(row => row[1]), 1);
+    document.getElementById('stok').innerHTML = sample.map(([name, quantity, minimum, unit]) => {
+      const tone = quantity === 0 ? 'bar-out' : quantity <= minimum ? 'bar-low' : 'bar-normal';
+      const width = quantity === 0 ? 0 : Math.max(2, quantity / maximum * 100);
+      return `<div class="mini-row"><span class="mini-label">${name}</span><div class="bar-track" title="Tersedia ${quantity} ${unit}; minimum ${minimum} ${unit}"><div class="bar-fill ${tone}" style="width:${width}%"></div></div><span>${quantity} / ${minimum}</span></div>`;
+    }).join('');
+    const daily = [['Sen',12,7],['Sel',18,11],['Rab',9,15],['Kam',21,10],['Jum',15,13],['Sab',8,5],['Min',24,12]];
+    document.getElementById('chart-movement').innerHTML = daily.map(([day, incoming, outgoing]) => `<div class="line-day"><span>${day}</span><div class="line-pairs" title="Masuk ${incoming}; keluar ${outgoing}"><i class="line-in" style="height:${incoming * 1.1}px"></i><i class="line-out" style="height:${outgoing * 1.1}px"></i></div></div>`).join('');
+  </script>
+</body>
+</html>
